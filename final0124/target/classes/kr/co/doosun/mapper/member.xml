@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="member">
+	<!-- 회원 가입 -->
+	<insert parameterType="memvo" id="signin">
+		insert into member
+		values(member_seq.nextVal,#{memid},#{mempwd},#{memname},#{memage},#{memgender},#{memphone},sysdate,#{mempost},#{memaddr1},#{memaddr2},#{mememail},#{mempoint})
+	</insert>
+
+	<select parameterType="String" id="idchk" resultType="int">
+		select
+		count(*) cnt FROM member where memid=#{memid}
+	</select>
+
+	<insert parameterType="logdto" id="login">
+		<!-- private int lognum ; -->
+		<!-- private String logid, logip, logname, logstat, logstart, lotend; -->
+		insert into login
+		values(login_seq.nextVal,#{logid},#{logip},#{logname},#{logstat},sysdate)
+	</insert>
+
+	<select id="loginchk" resultType="memvo">
+		select memname,memid,memnum from member where memid = #{memid} and mempwd = #{mempwd}
+	</select>
+
+	<select id="viewMember" resultType="memvo">
+		select memname,memid,mememail,memdate from member where memid=#{memid} and mempwd=#{mempwd}
+	</select>
+</mapper>
